@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.options {
+    margin-bottom: 25px;
+}
+
+.option-group {
+    margin-bottom: 15px;
+}
+
+.option-group label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+}
+
+.option-group input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.1);
+}
+
+.option-group input[type="number"] {
+    width: 80px;
+    padding: 8px;
+    border: 2px solid #e0e0e0;
+    border-radius: 5px;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+#generate {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: transform 0.2s;
+}
+
+#generate:hover {
+    transform: translateY(-2px);
+}
+
+.result-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#password {
+    flex: 1;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    background-color: #f8f9fa;
+}
+
+#copy {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+#copy:hover {
+    background: #218838;
+}
+
+.strength-meter {
+    margin-top: 15px;
+}
+
+.strength-bar {
+    width: 100%;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.strength-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 4px;
+    transition: width 0.3s, background-color 0.3s;
+}
+
+.strength-text {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}

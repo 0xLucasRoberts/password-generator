@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>密码生成器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>密码生成器</h1>
+        <div class="options">
+            <div class="option-group">
+                <label for="length">密码长度:</label>
+                <input type="number" id="length" min="4" max="128" value="12">
+            </div>
+            
+            <div class="option-group">
+                <label>
+                    <input type="checkbox" id="uppercase" checked>
+                    包含大写字母 (A-Z)
+                </label>
+            </div>
+            
+            <div class="option-group">
+                <label>
+                    <input type="checkbox" id="lowercase" checked>
+                    包含小写字母 (a-z)
+                </label>
+            </div>
+            
+            <div class="option-group">
+                <label>
+                    <input type="checkbox" id="numbers" checked>
+                    包含数字 (0-9)
+                </label>
+            </div>
+            
+            <div class="option-group">
+                <label>
+                    <input type="checkbox" id="symbols">
+                    包含符号 (!@#$%^&*)
+                </label>
+            </div>
+        </div>
+        
+        <button id="generate">生成密码</button>
+        
+        <div class="result-container">
+            <input type="text" id="password" readonly>
+            <button id="copy">复制</button>
+        </div>
+        
+        <div class="strength-meter">
+            <div class="strength-bar">
+                <div class="strength-fill"></div>
+            </div>
+            <span class="strength-text">密码强度: -</span>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
