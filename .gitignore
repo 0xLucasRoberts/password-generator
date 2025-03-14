@@ -1,2 +1,7 @@
+node_modules/
 .claude
+*.log
+.DS_Store
+dist/
 CLAUDE.md
+*.tmp
