@@ -7,17 +7,23 @@ class PasswordGenerator {
             symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?'
         };
         
+        this.passwordHistory = JSON.parse(localStorage.getItem('passwordHistory')) || [];
+        this.maxHistorySize = 10;
+        
         this.initEventListeners();
+        this.updateHistoryDisplay();
     }
     
     initEventListeners() {
         const generateBtn = document.getElementById('generate');
         const copyBtn = document.getElementById('copy');
         const lengthInput = document.getElementById('length');
+        const clearHistoryBtn = document.getElementById('clearHistory');
         
         generateBtn.addEventListener('click', () => this.generatePassword());
         copyBtn.addEventListener('click', () => this.copyToClipboard());
         lengthInput.addEventListener('input', () => this.generatePassword());
+        clearHistoryBtn.addEventListener('click', () => this.clearHistory());
         
         document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
             checkbox.addEventListener('change', () => this.generatePassword());
@@ -70,6 +76,7 @@ class PasswordGenerator {
         
         document.getElementById('password').value = password;
         this.updateStrengthMeter(this.calculateStrength(password));
+        this.addToHistory(password);
     }
     
     calculateStrength(password) {
@@ -134,6 +141,53 @@ class PasswordGenerator {
                 }, 2000);
             });
         }
+    }
+    
+    addToHistory(password) {
+        if (this.passwordHistory.includes(password)) {
+            return;
+        }
+        
+        this.passwordHistory.unshift(password);
+        
+        if (this.passwordHistory.length > this.maxHistorySize) {
+            this.passwordHistory.pop();
+        }
+        
+        localStorage.setItem('passwordHistory', JSON.stringify(this.passwordHistory));
+        this.updateHistoryDisplay();
+    }
+    
+    updateHistoryDisplay() {
+        const historyList = document.getElementById('historyList');
+        
+        if (this.passwordHistory.length === 0) {
+            historyList.innerHTML = '<p class="no-history">暂无历史记录</p>';
+            return;
+        }
+        
+        historyList.innerHTML = this.passwordHistory.map(password => `
+            <div class="history-item">
+                <span class="history-password">${password}</span>
+                <button class="history-copy" onclick="navigator.clipboard.writeText('${password}')">复制</button>
+            </div>
+        `).join('');
+    }
+    
+    clearHistory() {
+        this.passwordHistory = [];
+        localStorage.removeItem('passwordHistory');
+        this.updateHistoryDisplay();
+        
+        const clearBtn = document.getElementById('clearHistory');
+        const originalText = clearBtn.textContent;
+        clearBtn.textContent = '已清空';
+        clearBtn.style.backgroundColor = '#6c757d';
+        
+        setTimeout(() => {
+            clearBtn.textContent = originalText;
+            clearBtn.style.backgroundColor = '#dc3545';
+        }, 1500);
     }
 }
 
