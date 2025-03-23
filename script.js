@@ -75,7 +75,9 @@ class PasswordGenerator {
         }
         
         document.getElementById('password').value = password;
-        this.updateStrengthMeter(this.calculateStrength(password));
+        const strength = this.calculateStrength(password);
+        this.updateStrengthMeter(strength);
+        this.showSecurityTips(password, strength);
         this.addToHistory(password);
     }
     
@@ -83,15 +85,38 @@ class PasswordGenerator {
         let score = 0;
         const length = password.length;
         
-        if (length >= 8) score += 25;
-        if (length >= 12) score += 25;
+        if (length >= 8) score += 15;
+        if (length >= 12) score += 15;
+        if (length >= 16) score += 10;
         
-        if (/[a-z]/.test(password)) score += 10;
-        if (/[A-Z]/.test(password)) score += 10;
-        if (/[0-9]/.test(password)) score += 10;
-        if (/[^A-Za-z0-9]/.test(password)) score += 20;
+        const hasLower = /[a-z]/.test(password);
+        const hasUpper = /[A-Z]/.test(password);
+        const hasNumbers = /[0-9]/.test(password);
+        const hasSymbols = /[^A-Za-z0-9]/.test(password);
         
-        return Math.min(score, 100);
+        if (hasLower) score += 10;
+        if (hasUpper) score += 10;
+        if (hasNumbers) score += 10;
+        if (hasSymbols) score += 15;
+        
+        const charTypes = [hasLower, hasUpper, hasNumbers, hasSymbols].filter(Boolean).length;
+        if (charTypes >= 3) score += 10;
+        if (charTypes === 4) score += 5;
+        
+        if (this.hasRepeatedChars(password)) score -= 10;
+        if (this.hasSequentialChars(password)) score -= 10;
+        
+        return Math.max(0, Math.min(score, 100));
+    }
+    
+    hasRepeatedChars(password) {
+        const repeatedPattern = /(.)\1{2,}/;
+        return repeatedPattern.test(password);
+    }
+    
+    hasSequentialChars(password) {
+        const sequences = ['123', 'abc', 'ABC', 'qwe', 'QWE'];
+        return sequences.some(seq => password.toLowerCase().includes(seq));
     }
     
     updateStrengthMeter(strength) {
@@ -140,6 +165,42 @@ class PasswordGenerator {
                     copyBtn.textContent = originalText;
                 }, 2000);
             });
+        }
+    }
+    
+    showSecurityTips(password, strength) {
+        const tipsElement = document.getElementById('securityTips');
+        let tips = [];
+        
+        if (strength < 50) {
+            if (password.length < 12) {
+                tips.push('建议密码长度至少12位');
+            }
+            
+            const hasLower = /[a-z]/.test(password);
+            const hasUpper = /[A-Z]/.test(password);
+            const hasNumbers = /[0-9]/.test(password);
+            const hasSymbols = /[^A-Za-z0-9]/.test(password);
+            
+            if (!hasLower) tips.push('添加小写字母可提高安全性');
+            if (!hasUpper) tips.push('添加大写字母可提高安全性');
+            if (!hasNumbers) tips.push('添加数字可提高安全性');
+            if (!hasSymbols) tips.push('添加特殊符号可显著提高安全性');
+            
+            if (this.hasRepeatedChars(password)) {
+                tips.push('避免连续重复字符');
+            }
+            
+            if (this.hasSequentialChars(password)) {
+                tips.push('避免使用键盘序列或字母序列');
+            }
+        }
+        
+        if (tips.length > 0) {
+            tipsElement.innerHTML = `<strong>安全建议：</strong><br>${tips.join('<br>')}`;
+            tipsElement.className = 'security-tips show';
+        } else {
+            tipsElement.className = 'security-tips';
         }
     }
     
