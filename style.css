@@ -250,3 +250,52 @@ h1 {
 .clear-btn:hover {
     background: #c82333;
 }
+
+.advanced-options {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.advanced-toggle {
+    background: none;
+    border: none;
+    color: #667eea;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.advanced-toggle:hover {
+    color: #764ba2;
+}
+
+.advanced-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.advanced-panel.expanded {
+    max-height: 200px;
+    padding-top: 15px;
+}
+
+.advanced-panel .option-group {
+    margin-bottom: 10px;
+}
+
+#customChars {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #e0e0e0;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+}

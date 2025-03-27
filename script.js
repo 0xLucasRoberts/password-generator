@@ -19,11 +19,15 @@ class PasswordGenerator {
         const copyBtn = document.getElementById('copy');
         const lengthInput = document.getElementById('length');
         const clearHistoryBtn = document.getElementById('clearHistory');
+        const advancedToggle = document.getElementById('advancedToggle');
+        const customCharsInput = document.getElementById('customChars');
         
         generateBtn.addEventListener('click', () => this.generatePassword());
         copyBtn.addEventListener('click', () => this.copyToClipboard());
         lengthInput.addEventListener('input', () => this.generatePassword());
         clearHistoryBtn.addEventListener('click', () => this.clearHistory());
+        advancedToggle.addEventListener('click', () => this.toggleAdvancedOptions());
+        customCharsInput.addEventListener('input', () => this.generatePassword());
         
         document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
             checkbox.addEventListener('change', () => this.generatePassword());
@@ -46,6 +50,19 @@ class PasswordGenerator {
         }
         if (document.getElementById('symbols').checked) {
             chars += this.characters.symbols;
+        }
+        
+        const customChars = document.getElementById('customChars').value;
+        if (customChars) {
+            chars += customChars;
+        }
+        
+        if (document.getElementById('excludeSimilar').checked) {
+            chars = chars.replace(/[0O1lI]/g, '');
+        }
+        
+        if (document.getElementById('excludeAmbiguous').checked) {
+            chars = chars.replace(/[{}[\]()]/g, '');
         }
         
         return chars;
@@ -249,6 +266,19 @@ class PasswordGenerator {
             clearBtn.textContent = originalText;
             clearBtn.style.backgroundColor = '#dc3545';
         }, 1500);
+    }
+    
+    toggleAdvancedOptions() {
+        const panel = document.getElementById('advancedPanel');
+        const toggle = document.getElementById('advancedToggle');
+        
+        if (panel.classList.contains('expanded')) {
+            panel.classList.remove('expanded');
+            toggle.textContent = '高级选项 ▼';
+        } else {
+            panel.classList.add('expanded');
+            toggle.textContent = '高级选项 ▲';
+        }
     }
 }
 

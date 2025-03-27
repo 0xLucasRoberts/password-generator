@@ -42,6 +42,30 @@
                     包含符号 (!@#$%^&*)
                 </label>
             </div>
+            
+            <div class="advanced-options">
+                <button type="button" id="advancedToggle" class="advanced-toggle">高级选项 ▼</button>
+                <div class="advanced-panel" id="advancedPanel">
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="excludeSimilar">
+                            排除易混淆字符 (0,O,1,l,I)
+                        </label>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="excludeAmbiguous">
+                            排除歧义符号 ({[()]})
+                        </label>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="customChars">自定义字符集:</label>
+                        <input type="text" id="customChars" placeholder="输入自定义字符">
+                    </div>
+                </div>
+            </div>
         </div>
         
         <button id="generate">生成密码</button>
